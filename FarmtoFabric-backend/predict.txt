@@ -1,0 +1,23 @@
+Import necessary libraries: The code imports the requests library for making HTTP requests and the pandas library for data manipulation.
+
+Define the URL and sample data: The code defines the URL of the Flask API endpoint ('http://127.0.0.1:5000/predict') and a sample dictionary containing the features of a wool sample (sample).
+
+Load and preprocess the dataset: The code loads a dataset containing wool quality information from a CSV file ('wool_quality_dataset.csv') into a pandas DataFrame (data). It then encodes categorical variables in the dataset using one-hot encoding and selects the relevant columns ('Fiber_Diameter', 'Length', 'Color', 'Crimp', 'Cleanliness') for further processing.
+
+Prepare the sample data: The code converts the sample dictionary to a pandas DataFrame (sample_df). It then encodes the categorical variables in the sample DataFrame using one-hot encoding and reindexes the DataFrame to match the columns in the dataset DataFrame (X).
+
+Convert DataFrame to dictionary: The code converts the sample_df_encoded DataFrame to a list of dictionaries (sample_dict) using the to_dict method with orient='records'. Each dictionary in the list represents a row of the DataFrame, which is suitable for sending as JSON in the request.
+
+Make a POST request: The code sends a POST request to the Flask API endpoint (url) with the sample data (sample_dict) as JSON payload. It uses the requests.post method to make the request and prints the JSON response from the API using response.json().
+
+This code demonstrates how to prepare sample data and send it to a Flask API endpoint for making predictions using a trained machine learning model.
+
+
+
+{
+   "Fiber_Diameter":28,
+   "Length":13,
+   "Color":"White",
+   "Crimp":3,
+   "Cleanliness":6
+}
