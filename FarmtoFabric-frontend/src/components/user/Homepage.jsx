@@ -1,66 +1,92 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+import { useCart } from './CartProvider';
 
 export default function Homepage() {
-    const [productdata, setProductsData] = useState([])
-    
+    const [productdata, setProductsData] = useState([]);
+    let { id, name, signinas } = useParams();  // Assuming this holds user information (e.g., user_id).
+    const navigate = useNavigate();
+    const { addToCart} = useCart()
 
+    // Function to load the products data
     function loadData() {
-        axios.get("http://localhost:5000/products")
+        axios.get("http://localhost:5000/prod")
             .then((res) => {
-                //  setData(res.data)
-                console.log(res.data)
-                setProductsData(res.data)
+                setProductsData(res.data);
             })
-            .catch((rej) => {
-                alert("enable to get the data")
-            })
+            .catch((error) => {
+                alert("Unable to get the data");
+            });
     }
 
+    // Function to add a product to the cart
+    function addtocart(productId) {
+        const userId = id; // Use the user ID from the URL params
+
+        axios.post('http://localhost:5000/cart', {
+            product_id: productId,
+            user_id: userId,
+            quantity: 1, // Default quantity for this example
+        })
+        .then((res) => {
+            alert('Product added to cart');
+            addToCart();
+            // navigate('/user/'+id+'/'+name+'/'+signinas)
+        })
+        .catch((error) => {
+            alert('Failed to add product to cart');
+        });
+    }
+
+    // Load product data when the component mounts
     useEffect(() => {
         loadData();
-    }, [])
-    return ( 
-        <div className=' w-full 
-        mt-20 m-auto md:max-w-7xl p-2 flex gap-5 md:flex-wrap justify-start border flex-col md:flex-row'>
+    },[]);
+
+    return (
+        <div className='mt-20 m-auto p-6 flex gap-5 justify-center items-center flex-col md:flex-row md:max-w-7xl max-w-full'>
             {
                 productdata.map((data, i) => (
-                    //     <div className=" product_card p-2 border border-blue-600 flex flex-col items-center gap-3 w-full sm:w-1/3" key={i}>
-                    //     <div className=" border border-black">
-                    //         <img src={data['imgpath']} alt="productimg" className=' w-16' />
-                    //     </div>
-                    //     <p>{data['title']}</p>
-                    //     <p>{data['description']}</p>
-                    //     <p>Mrp-{data['mrp']}</p>
-                    //     <p>Price-{data['price']}</p>
-                    //     <div className=" flex gap-5">
-                    //         <button className='border text-white p-1 rounded-md bg-blue-600'>Add to Cart</button>
-                    //         <button className='border text-white p-1 rounded-md bg-black'>Buy Now</button>
-                    //     </div>
-                    // </div>
+                    <div className="bg-white items-center justify-center rounded-lg p-4 mb-4 flex flex-col hover:shadow-lg hover:border md:w-1/3  w-full" key={i}>
+                        {/* Product Image */}
+                        <img
+                            src={data['imgpath']}
+                            alt={'product image'}
+                            className="w-40 h-40 object-cover rounded-md"
+                        />
 
-
-                    <div class=" bg-white border border-gray-200 rounded-lg md:w-1/4 h-fit md:ml-14">
-                        <div className=' w-3/4  h-40 m-auto'>
-                            <img class="p-8 rounded-t-lg w-full h-full " src={data['imgpath']} alt="product image" />
+                        {/* Product Details */}
+                        <div className="flex flex-col items-center">
+                            <h3 className="text-xl font-bold mb-2">{data['title']}</h3>
+                            <div className="flex items-center mb-2 justify-center">
+                                <div className="flex text-red-500">{'★'.repeat(5)}</div>
+                                <span className="ml-2 text-gray-600"> reviews</span>
+                            </div>
+                            <p className="text-gray-500 text-sm mb-4">
+                                {data['description']}
+                            </p>
                         </div>
-                        <div class="px-5 pb-5">
 
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 ">{data['title']} - {data['description']}</h5>
+                        {/* Pricing and Actions */}
+                        <div className="flex items-center justify-center flex-row flex-wrap">
+                            <div className="m-1 flex flex-col gap-0">
+                                <div className="flex justify-center items-center gap-1">
+                                    <div className="text-lg font-bold text-red-500">{"₹" + data['price']}</div>
+                                    <div className="text-sm text-gray-500 line-through">{"₹" + data['mrp']}</div>
+                                </div>
+                                <div className="text-green-500">Free shipping</div>
+                            </div>
 
-                            <div class="flex items-center mt-2.5 mb-5">
-                            <i class="fa-solid fa-indian-rupee-sign"></i><strike>{data['mrp']}</strike> 
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-3xl font-bold text-gray-900"><i class="fa-solid fa-indian-rupee-sign"></i>{data['price']}</span>
-                                <a href="#" class="text-white bg-blue-700 hover:bg-blue-800   font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Add to cart</a>
-                            </div>
+                            {/* Add to Cart Button */}
+                            <button className="border border-blue-500 text-blue-500 px-4 py-2 rounded m-1" onClick={() => addtocart(data.id)}>
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
-
                 ))
             }
         </div>
-    )
+    );
 }

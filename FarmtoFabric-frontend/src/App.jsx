@@ -16,6 +16,11 @@ import Orders from './components/ServiceProvider/Orders'
 import Services from './components/ServiceProvider/Services'
 import Homepage from './components/user/Homepage';
 import Addproducts from './components/ServiceProvider/Addproducts';
+import Cart from './components/user/Cart';
+import OrdersUser from './components/user/OrdersUser';
+import FarmerHome from './components/Farmer/FarmerHome';
+import LostPass from './components/LostPass'
+import { CartProvider } from './components/user/CartProvider';
 
 export default function App() {
 
@@ -36,6 +41,7 @@ export default function App() {
         (
           <Loading />
         ) : (
+        <CartProvider>
           <BrowserRouter>
             <Routes>
               <Route
@@ -75,8 +81,19 @@ export default function App() {
                   <>
                     <Navbar />
                     <Login />
+                    {/* <LoginForm/> */}
                   </>
                 }
+              />
+
+              <Route
+               path='/lostpass'
+               element={
+                <>
+                  <Navbar/>
+                  <LostPass/>
+                </>
+               }
               />
 
               <Route path='/register'
@@ -88,7 +105,7 @@ export default function App() {
                 }
               />
 
-              {/* serviceprovider */}
+              {/* Farmer */}
               <Route path='/sprovider/:id/:name/:signinas'
                 element={
                   <>
@@ -98,7 +115,7 @@ export default function App() {
                 }
               />
 
-              <Route path='/sprovider/:name'
+              <Route path='/sprovider/:id/:name'
                 element={
                   <>
                     <Sidebar name="Dashboard" />
@@ -107,7 +124,7 @@ export default function App() {
                 }
               />
 
-              <Route path='/sprovider/:name/qualityassurace'
+              <Route path='/sprovider/:id/:name/qualityassurace'
                 element={
                   <>
                     <Sidebar name="Quality Assurance" />
@@ -116,7 +133,7 @@ export default function App() {
                 }
               />
 
-              <Route path='/sprovider/:name/products'
+              <Route path='/sprovider/:id/:name/products'
                 element={
                   <>
                     <Sidebar name="Products" />
@@ -125,16 +142,25 @@ export default function App() {
                 }
               />
 
-              <Route path='/sprovider/:name/addproducts'
+              <Route path='/sprovider/:id/:name/addproducts'
                 element={
                   <>
                     <Sidebar name="Add Products" />
-                    <Addproducts/>
+                    <Addproducts />
+                  </>
+                } 
+              />
+
+              <Route path='/sprovider/:id/:name/products/addproducts/:pid'
+                element={
+                  <>
+                    <Sidebar name="Add Products" />
+                    <Addproducts />
                   </>
                 }
               />
 
-              <Route path='/sprovider/:name/services'
+              <Route path='/sprovider/:id/:name/services'
                 element={
                   <>
                     <Sidebar name="Services" />
@@ -143,7 +169,7 @@ export default function App() {
                 }
               />
 
-              <Route path='/sprovider/:name/orders'
+              <Route path='/sprovider/:id/:name/orders'
                 element={
                   <>
                     <Sidebar name="Orders" />
@@ -162,13 +188,33 @@ export default function App() {
                   </>
                 }
               />
-              
+
               <Route
                 path='/searchitem/:id/:name/:title'
                 element={
                   <>
                     <Navbar />
                     <Products />
+                  </>
+                }
+              />
+
+              <Route
+                path='/cart/:id/:name/:signinas'
+                element={
+                  <>
+                    <Navbar />
+                    <Cart />
+                  </>
+                }
+              />
+
+              <Route
+                path='/order/:id/:name/:signinas'
+                element={
+                  <>
+                    <Navbar />
+                    <OrdersUser />
                   </>
                 }
               />
@@ -181,13 +227,23 @@ export default function App() {
                 element={
                   <>
                     <Navbar />
+                    <FarmerHome/>
                   </>
                 }
               />
 
-
+              <Route
+                path='/farmer/:id/:name/:signinas/farmerhome'
+                element ={
+                  <>
+                  <Navbar/>
+                  <FarmerHome/>
+                  </>
+                }
+              />
             </Routes>
           </BrowserRouter>
+          </CartProvider>
         )
       }
     </div>

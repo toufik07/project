@@ -31,7 +31,7 @@ export default function Sidebar(props) {
                     <span className="text-lg font-bold text-white ml-3" >Hello {name}</span>
                 </a>
                 <ul className="mt-4">
-                    <Link to={'/sprovider/' + name}>
+                    <Link to={'/sprovider/'+ id + '/' + name}>
                         <li className="mb-4 group">
                             <a
                                 href="#"
@@ -43,7 +43,7 @@ export default function Sidebar(props) {
                         </li>
                     </Link>
 
-                    <Link to={'/sprovider/' + name + '/orders'} >
+                    <Link to={'/sprovider/'+ id + '/' + name + '/orders'} >
                         <li className="mb-4 group">
                             <a
                                 href="#"
@@ -56,7 +56,7 @@ export default function Sidebar(props) {
                         </li>
                     </Link>
 
-                    <Link to={'/sprovider/' + name + '/products'} >
+                    <Link to={'/sprovider/'+ id + '/' + name + '/products'} >
                         <li className="mb-4 group">
                             <a
                                 href="#"
@@ -69,7 +69,7 @@ export default function Sidebar(props) {
                         </li>
                     </Link>
 
-                    <Link to={'/sprovider/' + name + '/addproducts'} >
+                    <Link to={'/sprovider/'+ id + '/' + name + '/addproducts'} >
                         <li className="mb-4 group">
                             <a
                                 href="#"
@@ -82,20 +82,20 @@ export default function Sidebar(props) {
                         </li>
                     </Link>
 
-                    <Link to={'/sprovider/' + name + '/services'} >
+                    <Link to={'/sprovider/'+ id + '/' + name + '/services'} >
                         <li className="mb-4 group">
                             <a
                                 href="#"
                                 className="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md  sidebar-dropdown-toggle"
                             >
                                 <i class="fa-brands fa-first-order-alt mr-2"></i>
-                                <span className="text-sm">Services</span>
+                                <span className="text-sm">Farmer Requests</span>
                             </a>
 
                         </li>
                     </Link>
 
-                    <Link to={'/sprovider/' + name + '/qualityassurace'}>
+                    <Link to={'/sprovider/'+ id + '/' + name + '/qualityassurace'}>
                         <li className="mb-4 group">
                             <a
                                 href="#"
